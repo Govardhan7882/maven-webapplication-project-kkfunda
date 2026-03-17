@@ -47,7 +47,7 @@
 
 <header>
      <h1> WELCOME TO KK FUNDA DEVOPS DEVSECOPS AWS SRE NEW BATCH WILL START ON APRIL 19TH 6:45 AM JST, DEMO AT 10 : 30 AM IST</h1> 
-    <h3>Training | Development | Consulting</h3>
+    <h3>Training | Development | Consulting | KKDEVOPS</h3>
 </header>
 
 <div class="container">
