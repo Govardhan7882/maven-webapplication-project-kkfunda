@@ -10,6 +10,7 @@ node
 
   stage('checkout')
   {
+     notifyBuild('STARTED');
     git branch: 'dev', url: 'https://github.com/kkdevopsb8/maven-webapplication-project-kkfunda.git'
   }
 
