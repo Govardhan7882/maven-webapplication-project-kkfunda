@@ -47,7 +47,7 @@
 
 <header>
      <h1> WELCOME MR GOVARDHAN TO KK FUNDA DEVOPS TRAINING</h1> 
-    <h3>Training | Development | Consulting | KKDEVOPS</h3>
+    <h3>Training | KKDEVOPS</h3>
 </header>
 
 <div class="container">
