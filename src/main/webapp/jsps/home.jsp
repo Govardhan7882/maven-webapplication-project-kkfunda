@@ -46,7 +46,7 @@
 <body>
 
 <header>
-     <h1> HELLO WELCOME GOVARDHAN TO KK FUNDA DEVOPS TRAINING</h1> 
+     <h1> WELCOME GOVARDHAN TO KK FUNDA DEVOPS TRAINING</h1> 
     <h3>Training | Development | Consulting | KKDEVOPS</h3>
 </header>
 
