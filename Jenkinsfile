@@ -1,52 +1,40 @@
-pipeline
+//node starting
+node
 {
-	agent any
-	tools
-	{
-	  maven "maven-3.9.14"
-	}
-	stages
-	{
-	 stage('checkout')
-	 {
-	    steps
-	    {
-	   git branch: 'dev', url: 'https://github.com/kkdevopsb8/maven-webapplication-project-kkfunda.git'
-	   }
-	 }
-	 stage('Build')
-	 {
-	   steps
-	   {
-	      sh "mvn clean package"
-	   }
-	 }
-	 stage('SQ REPORT')
-	 {
-	   steps
-	   {
-	   sh "mvn sonar:sonar"
-	   }
-	 }
-	 stage('Upload to nexus')
-	 {
-	     steps
-	     {
-	    sh "mvn deploy"
-	     }
-	 }
-	 stage('Deploy to tomcat')
-	 {
-	   steps
-	   {
-	      sh '''
-            curl -u kk:password \
-            --upload-file /var/lib/jenkins/workspace/Declarative-PL-Dev/target/maven-web-application.war \
-            "http://13.232.26.179:8080/manager/text/deploy?path=/maven-web-application&update=true"
-            '''
-	   }
-	 }
+ def mavenhomepath=tool name: "maven-3.9.0"
+ stage('git checkout')
+ {
+  git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
+ }
+ stage('maven compile')
+ {
+  sh "${mavenhomepath}/bin/mvn compile"
+ }
+ stage('maven build')
+ {
+  sh "${mavenhomepath}/bin/mvn clean package"
+ }
+ stage('sq report')
+ {
+ sh "${mavenhomepath}/bin/mvn sonar:sonar"
+ }
+ stage('nexus deploy')
+ {
+ sh "${mavenhomepath}/bin/mvn deploy"
+ }
+ stage('Deploy to Tomcat') {
+        withCredentials([usernamePassword(
+            credentialsId: 'tomcat-cred',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+        )]) {
 
-	} //stages  ending
+            sh """
+            curl -u ${USERNAME}:${PASSWORD} \
+            --upload-file /var/lib/jenkins/workspace/go-pipeline/target/maven-web-application.war \
+            "http://52.66.93.166:8080/manager/text/deploy?path=/maven-web-application&update=true"
+            """
+        }
+    }
 
-} //pipeline ending
+}//node ending
