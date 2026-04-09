@@ -22,7 +22,12 @@ node
  {
  sh "${mavenhomepath}/bin/mvn deploy"
  }
- stage('Deploy to Tomcat') {
+ //🔐 Manual Approval Step
+    stage('Approval for Tomcat Deploy') {
+        input message: 'Do you want to deploy to Tomcat?', ok: 'Deploy'
+    }
+
+    stage('Deploy to Tomcat') {
         withCredentials([usernamePassword(
             credentialsId: 'tomcat-cred',
             usernameVariable: 'USERNAME',
@@ -30,8 +35,8 @@ node
         )]) {
 
             sh """
-            curl -u ${USERNAME}:${PASSWORD} \
-            --upload-file /var/lib/jenkins/workspace/go-pipeline/target/maven-web-application.war \
+            curl -u "$USERNAME:$PASSWORD" \
+            --upload-file target/maven-web-application.war \
             "http://52.66.93.166:8080/manager/text/deploy?path=/maven-web-application&update=true"
             """
         }
