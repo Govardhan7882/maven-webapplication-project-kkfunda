@@ -21,9 +21,9 @@
 		<spring.version>5.3.34</spring.version>
 		<junit.version>4.11</junit.version>
 		<log4j.version>1.2.17</log4j.version>
-		<sonar.host.url>http://3.110.101.196:9000/</sonar.host.url>
+		<sonar.host.url>http://13.126.191.50:9000/</sonar.host.url>
 		<sonar.login>admin</sonar.login>
-		<sonar.password>password</sonar.password> 
+		<sonar.password>Gs376628@376628</sonar.password> 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -98,13 +98,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>KK FUNDA Releases Nexus Repository</name>
-	      <url>http://3.109.153.168:8081/repository/go-release/</url>
+	      <url>http://43.205.243.53:8081/repository/gova-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>KK FUNDA Snapshot Nexus Repository </name>
-	      <url>http://3.109.153.168:8081/repository/go-snapshot/</url>
+	      <url>http://43.205.243.53:8081/repository/gova-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
