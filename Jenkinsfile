@@ -1,11 +1,9 @@
 //node starting
 node {
     def mavenhomepath = tool name: "maven-3.9.0"
-
+echo "git branch Name: ${env.BRANCH_NAME}"
+echo "build number: ${env.BUILD_NUMBER}"
     try {
-        // 🟠 Build Started (Amber)
-        slackSend channel: '#testing-slack', color: '#FFC107',
-        message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - ${env.BUILD_URL}"
 
         stage('git checkout') {
             git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
@@ -42,21 +40,5 @@ node {
             }
         }
 
-        // 🟢 Success (Green)
-        slackSend channel: '#testing-slack', color: '#36a64f',
-        message: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - ${env.BUILD_URL}"
-
-    } catch (Exception e) {
-
-        // 🔴 Failed (Red)
-        slackSend channel: '#testing-slack', color: '#FF0000',
-        message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - ${env.BUILD_URL}"
-
-        throw e
-
-    } finally {
-        // 📌 Always executes
-        slackSend channel: '#testing-slack',
-        message: "COMPLETED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' with status: ${currentBuild.currentResult}"
+        
     }
-}
