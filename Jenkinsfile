@@ -33,8 +33,7 @@ echo "build number: ${env.BUILD_NUMBER}"
             )]) {
 
                 sh """
-                curl -u "$USERNAME:$PASSWORD" \
-                --upload-file target/maven-web-application.war \
+                curl -u "$USERNAME:$PASSWORD" \ --upload-file /var/lib/jenkins/workspace/go-declarativeway-pl/target/maven-web-application.war \
                 "http://13.234.120.65:8080/manager/text/deploy?path=/maven-web-application&update=true"
                 """
             }
