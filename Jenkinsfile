@@ -1,43 +1,54 @@
-//node starting
-node {
-    def mavenhomepath = tool name: "maven-3.9.0"
-echo "git branch Name: ${env.BRANCH_NAME}"
-echo "build number: ${env.BUILD_NUMBER}"
-    try {
-
-        stage('git checkout') {
-            git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
-        }
-
-        stage('maven compile') {
-            sh "${mavenhomepath}/bin/mvn compile"
-        }
-
-        stage('maven build') {
-            sh "${mavenhomepath}/bin/mvn clean package"
-        }
-
-        stage('sq report') {
-            sh "${mavenhomepath}/bin/mvn sonar:sonar"
-        }
-
-        stage('nexus deploy') {
-            sh "${mavenhomepath}/bin/mvn deploy"
-        }
-
-        stage('Deploy to Tomcat') {
-            withCredentials([usernamePassword(
-                credentialsId: 'tomcat-cred',
-                usernameVariable: 'USERNAME',
-                passwordVariable: 'PASSWORD'
-            )]) {
-
-                sh """
-                curl -u "$USERNAME:$PASSWORD" \ --upload-file /var/lib/jenkins/workspace/go-declarativeway-pl/target/maven-web-application.war \
-                "http://13.234.120.65:8080/manager/text/deploy?path=/maven-web-application&update=true"
-                """
-            }
-        }
-
-        
+pipeline
+{
+	agent any
+	tools
+	{
+	 maven "maven-3.9.0"
+	}
+	stages
+	{
+	 stage('git checkout')
+	 {
+	   steps
+	   {
+	    git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
+	   }
+	 }
+	
+	stage('maven build')
+	{
+	 steps
+	 {
+       sh "mvn clean package"
+	 }
+	}
+	stage('sq report')
+	{
+	 steps
+	 {
+	   sh "mvn sonar:sonar"
+	 }
+	}
+    stage('deploy to nexus')
+    {
+      steps
+      {
+       sh "mvn deploy"
+      }
     }
+    stage('tomcat deploy')
+    {
+      steps
+      {
+       sh """
+
+      curl -u govardhan:password \
+--upload-file /var/lib/jenkins/workspace/go-declarativeway-pl/target/maven-web-application.war \
+"http://13.234.120.65:8080//manager/text/deploy?path=/maven-web-application&update=true"
+          
+        """
+      }
+    }
+
+  }	
+}
