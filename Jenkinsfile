@@ -1,7 +1,9 @@
 @Library('sharedlibgov') _
 pipeline
 {
-    agent any
+    agent {
+        labels 'nodes"
+    }
     tools
     {
      maven "maven-3.9.0"
