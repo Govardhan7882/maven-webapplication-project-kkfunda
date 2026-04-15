@@ -16,27 +16,29 @@ pipeline
        }
      }
     
-    stage('maven build')
-    {
-     steps
-     {
-       sh "mvn clean package"
-     }
+    stage('Maven Build') {
+    steps {
+        script {
+            mavenBuild()
+        }
     }
-    stage('sq report')
-    {
-     steps
-     {
-       sh "mvn sonar:sonar"
-     }
+}
+
+stage('SQ Report') {
+    steps {
+        script {
+            sonarReport()
+        }
     }
-    stage('deploy to nexus')
-    {
-      steps
-      {
-       sh "mvn deploy"
-      }
+}
+
+stage('Deploy to Nexus') {
+    steps {
+        script {
+            nexusDeploy()
+        }
     }
+}
     stage('tomcat deploy')
     {
       steps
