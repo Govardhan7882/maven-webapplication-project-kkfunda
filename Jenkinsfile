@@ -1,34 +1,34 @@
 pipeline
 {
-	agent any
-	tools
-	{
-	 maven "maven-3.9.0"
-	}
-	stages
-	{
-	 stage('git checkout')
-	 {
-	   steps
-	   {
-	    git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
-	   }
-	 }
-	
-	stage('maven build')
-	{
-	 steps
-	 {
+    agent any
+    tools
+    {
+     maven "maven-3.9.0"
+    }
+    stages
+    {
+     stage('git checkout')
+     {
+       steps
+       {
+        git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
+       }
+     }
+    
+    stage('maven build')
+    {
+     steps
+     {
        sh "mvn clean package"
-	 }
-	}
-	stage('sq report')
-	{
-	 steps
-	 {
-	   sh "mvn sonar:sonar"
-	 }
-	}
+     }
+    }
+    stage('sq report')
+    {
+     steps
+     {
+       sh "mvn sonar:sonar"
+     }
+    }
     stage('deploy to nexus')
     {
       steps
@@ -50,5 +50,20 @@ pipeline
       }
     }
 
-  }	
+  } 
+
+
+    post {
+        success {
+            script {
+                sendSlackNotifications(currentBuild.result)
+            }
+        }
+
+        failure {
+            script {
+                sendSlackNotifications(currentBuild.result)
+            }
+        }
+    }
 }
