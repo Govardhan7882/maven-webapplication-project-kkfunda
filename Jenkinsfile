@@ -44,7 +44,7 @@ pipeline
 
       curl -u govardhan:password \
 --upload-file /var/lib/jenkins/workspace/go-declarativeway-pl/target/maven-web-application.war \
-"http://13.234.120.65:8080//manager/text/deploy?path=/maven-web-application&update=true"
+"http://13.234.17.115:8080/manager/text/deploy?path=/maven-web-application&update=true"
           
         """
       }
