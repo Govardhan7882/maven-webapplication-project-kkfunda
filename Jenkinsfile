@@ -1,9 +1,7 @@
-@Library('sharedlibgov') _
 pipeline
 {
-    agent {
-        label 'nodes"
-    }
+    agent any
+    
     tools
     {
      maven "maven-3.9.0"
@@ -17,30 +15,28 @@ pipeline
         git branch: 'dev', url: 'https://github.com/Govardhan7882/maven-webapplication-project-kkfunda.git'
        }
      }
+    stage('maven build')
+        {
+            steps
+            {
+                sh "mvn clean package"
+            }
+        }
+    stage('sq report')
+        {
+            steps
+            {
+                sh "mvn sonar:sonar"
+            }
+        }
+    stage('nexus deploy')
+        {
+            steps
+            {
+                sh "mvn deploy"
+            }
+        }
     
-    stage('Maven Build') {
-    steps {
-        script {
-            mavenBuild()
-        }
-    }
-}
-
-stage('SQ Report') {
-    steps {
-        script {
-            sonarReport()
-        }
-    }
-}
-
-stage('Deploy to Nexus') {
-    steps {
-        script {
-            nexusDeploy()
-        }
-    }
-}
     stage('tomcat deploy')
     {
       steps
@@ -49,7 +45,7 @@ stage('Deploy to Nexus') {
 
       curl -u govardhan:password \
 --upload-file /var/lib/jenkins/workspace/go-declarativeway-pl/target/maven-web-application.war \
-"http://13.234.17.115:8080/manager/text/deploy?path=/maven-web-application&update=true"
+"http://13.201.61.141:8080//manager/text/deploy?path=/maven-web-application&update=true"
           
         """
       }
@@ -57,18 +53,6 @@ stage('Deploy to Nexus') {
 
   } 
 
-
-    post {
-        success {
-            script {
-                sendSlackNotifications(currentBuild.result)
-            }
-        }
-
-        failure {
-            script {
-                sendSlackNotifications(currentBuild.result)
-            }
-        }
-    }
 }
+   
+    
